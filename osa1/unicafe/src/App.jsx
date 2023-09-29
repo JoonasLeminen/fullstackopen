@@ -5,29 +5,36 @@ const Button = ({handleClick, text}) =>
   {text}
 </button>
 
+const StatisticLine = ({text, value}) => {
+  // console.log(text, value)
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  )
+}
+
 const Statistics = (props) => {
-  console.log(props.statistics)
+  // console.log(props.statistics)
   if (props.statistics[3] >= 1) {
   return (
-    <div>
-      <p>Good {props.statistics[0]}</p>
-
-      <p>Neutral {props.statistics[1]}</p>
-
-      <p>Bad {props.statistics[2]}</p>
-
-      <p>Total {props.statistics[3]}</p>
-
-      <p>Avarage {props.statistics[4]}</p>
-
-      <p>Positive {props.statistics[5]}%</p>
-    </div>
+    <table>
+      <tbody>
+      <StatisticLine text="Good" value={props.statistics[0]}/>
+      <StatisticLine text="Neutral" value={props.statistics[1]}/>
+      <StatisticLine text="Bad" value={props.statistics[2]}/>
+      <StatisticLine text="Total" value={props.statistics[3]}/>
+      <StatisticLine text="Avarage" value={props.statistics[4]}/>
+      <StatisticLine text="Positive%" value={props.statistics[5]}/>
+      </tbody>
+      </table>
   )
   }
 }
 
 const History = (total) => {
-  console.log(total)
+  // console.log(total)
   if (total.history === 0) {
     return (
       <div>No feed back given</div>
@@ -40,7 +47,7 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   const total = good + neutral + bad
-  const avarage = (good - neutral) / (good + neutral + bad)
+  const avarage = (good - bad) / (good + neutral + bad)
   const positive = good / (good + neutral + bad) * 100
 
 const handleGoodClick = () => {

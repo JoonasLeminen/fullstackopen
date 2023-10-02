@@ -5,6 +5,18 @@ const Button = ({handleClick, text}) =>
   {text}
 </button>
 
+const points = new Array(8).fill(0)
+const copy = [...points]
+
+const Votes = (copy) => {
+  //console.log(copy)
+  return (
+    <div>
+      Anecdote had {copy.votes} votes before you
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -18,28 +30,32 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
-  const points = new Array(8).fill(0)
-  const copy = [...points]
   console.log(copy)
+  //console.log(copy[selected])
+  console.log(Math.max(...copy))
+
 
   const getRandom = () => {
-    // console.log(Math.floor(Math.random() * 8))
+    //console.log(Math.floor(Math.random() * 8))
     setSelected(Math.floor(Math.random() * 8))
   }
 
   const AddVote = () => {
     console.log('Vote added')
     copy[selected] += 1
-    console.log(copy)
+    //console.log(copy)
   }
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       {anecdotes[selected]}
       <div>
       <Button handleClick={getRandom} text='Next anecdote' />
       <Button handleClick={AddVote} text='Vote' />
+      <Votes votes={copy[selected]} />
       </div>
+      <h2>Anecdote with most votes</h2>
     </div>
   )
 }

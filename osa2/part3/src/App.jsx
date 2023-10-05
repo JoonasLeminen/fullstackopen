@@ -11,7 +11,7 @@ const App = (props) => {
     const noteObject = {
       content: newNote,
       important: Math.random() > 0.5,
-      id: notes.length +1,
+      id: notes.length + 1,
     }
 
     setNotes(notes.concat(noteObject))
@@ -24,15 +24,15 @@ const App = (props) => {
   }
 
   const notesToShow = showAll
-  ? notes
-  : notes.filter(note => note.important === true)
+    ? notes
+    : notes.filter(note => note.important === true)
 
   return (
     <div>
       <h1>Notes</h1>
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all' }
+          show {showAll ? 'important' : 'all'}
         </button>
       </div>
       <ul>
@@ -42,8 +42,8 @@ const App = (props) => {
       </ul>
       <form onSubmit={addNote}>
         <input
-        value={newNote}
-        onChange={handleNoteChange}
+          value={newNote}
+          onChange={handleNoteChange}
         />
         <button type="submit">save</button>
       </form>

@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import noteService from './services/persons'
 
 const PersonForm = ({ persons, newName, newNumber, setPersons, setNewName, setNewNumber }) => {
-  //console.log(persons)
 
   const addName = (event) => {
     event.preventDefault()
@@ -12,15 +11,18 @@ const PersonForm = ({ persons, newName, newNumber, setPersons, setNewName, setNe
       id: persons.length + 1,
     }
 
-    //console.log(persons.map(person => person.name).includes(newName))
     if (persons.map(person => person.name).includes(newName)) {
       console.log('Duplicate', newName)
       alert(`${newName} is already added to phonebook`)
     }
     else {
-      setPersons(persons.concat(nameObject))
-      setNewName('')
-      setNewNumber('')
+      noteService
+        .create(nameObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
 
@@ -60,14 +62,43 @@ const PersonForm = ({ persons, newName, newNumber, setPersons, setNewName, setNe
   )
 }
 
-const PersonList = ({ persons }) => {
-  //console.log(persons)
+const PersonList = ({ persons, setPersons }) => {
+
+  const PersonDelete = (id) => {
+    console.log(`Deleting user ${id}`)
+
+    if (window.confirm(`Really delete?`)) {
+      noteService
+        .deletePerson(id)
+
+      noteService
+        .getAll()
+        .then(response => {
+          console.log(response.data)
+          setPersons(response.data)
+        })
+    }
+  }
+
+  useEffect(() => {
+    noteService
+      .getAll()
+      .then(response => {
+        console.log('GET', response.data)
+        setPersons(response.data)
+      })
+  }, [])
+
   return (
     <div>
       <ul>
         {persons.map(person =>
           <li key={person.id}>
             {person.name} {person.number}
+            <button onClick={() =>
+              PersonDelete(person.id)}>
+              Delete
+            </button>
           </li>
         )}
       </ul>
@@ -80,17 +111,6 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
-  useEffect(() => {
-    //console.log('effect')
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      //console.log('promise fulfilled')
-      setPersons(response.data)
-    })
-  }, [])
-  //console.log('render', persons.length, 'persons')
-
   return (
     <div>
       <h2>Phonebook</h2>
@@ -98,7 +118,7 @@ const App = () => {
         newName={newName} setNewName={setNewName}
         newNumber={newNumber} setNewNumber={setNewNumber} />
       <h2>Numbers</h2>
-      <PersonList persons={persons} />
+      <PersonList persons={persons} setPersons={setPersons} />
     </div>
   )
 

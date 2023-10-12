@@ -29,6 +29,16 @@
       "name": "Herra Maaly",
       "number": "987-2313241",
       "id": 6
+    },
+    {
+      "name": "Pekka Koski",
+      "number": "564-666",
+      "id": 7
+    },
+    {
+      "name": "Matti Moro",
+      "number": "654-666-231231",
+      "id": 8
     }
   ]
 }

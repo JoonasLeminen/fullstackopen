@@ -1,7 +1,19 @@
 import { useState, useEffect } from 'react'
 import noteService from './services/persons'
 
-const PersonForm = ({ persons, newName, newNumber, setPersons, setNewName, setNewNumber }) => {
+const Notification = ({message}) => {
+  if (message === null) {
+      return null
+  }
+
+  return (
+      <div className='message'>
+          {message}
+      </div>
+  )
+}
+
+const PersonForm = ({ setMessage, persons, newName, newNumber, setPersons, setNewName, setNewNumber }) => {
 
   const addName = (event) => {
     event.preventDefault()
@@ -22,6 +34,12 @@ const PersonForm = ({ persons, newName, newNumber, setPersons, setNewName, setNe
           setPersons(persons.concat(response.data))
           setNewName('')
           setNewNumber('')
+          setMessage(
+            `Person '${nameObject.name}' added to phonebook`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000)
         })
     }
   }
@@ -62,12 +80,12 @@ const PersonForm = ({ persons, newName, newNumber, setPersons, setNewName, setNe
   )
 }
 
-const PersonList = ({ persons, setPersons }) => {
+const PersonList = ({ setMessage, persons, setPersons }) => {
 
   const PersonDelete = (id) => {
     console.log(`Deleting user ${id}`)
 
-    if (window.confirm(`Really delete?`)) {
+    if (window.confirm('Really delete?')) {
       noteService
         .deletePerson(id)
 
@@ -76,6 +94,12 @@ const PersonList = ({ persons, setPersons }) => {
         .then(response => {
           console.log(response.data)
           setPersons(response.data)
+          setMessage(
+            'Person deleted from phonebook'
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000)
         })
     }
   }
@@ -84,7 +108,7 @@ const PersonList = ({ persons, setPersons }) => {
     noteService
       .getAll()
       .then(response => {
-        console.log('GET', response.data)
+        //console.log('GET', response.data)
         setPersons(response.data)
       })
   }, [])
@@ -110,15 +134,19 @@ const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [message, setMessage] = useState(null)
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} setMessage={setMessage} />
       <PersonForm persons={persons} setPersons={setPersons}
         newName={newName} setNewName={setNewName}
-        newNumber={newNumber} setNewNumber={setNewNumber} />
+        newNumber={newNumber} setNewNumber={setNewNumber}
+        setMessage={setMessage} />
       <h2>Numbers</h2>
-      <PersonList persons={persons} setPersons={setPersons} />
+      <PersonList persons={persons} setPersons={setPersons}
+      setMessage={setMessage} />
     </div>
   )
 

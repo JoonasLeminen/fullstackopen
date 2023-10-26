@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
 import noteService from './services/persons'
 
-const Notification = ({message}) => {
+const Notification = ({ message }) => {
   if (message === null) {
-      return null
+    return null
   }
 
   return (
-      <div className='message'>
-          {message}
-      </div>
+    <div className='message'>
+      {message}
+    </div>
   )
 }
 
@@ -20,7 +20,6 @@ const PersonForm = ({ setMessage, persons, newName, newNumber, setPersons, setNe
     const nameObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     }
 
     if (persons.map(person => person.name).includes(newName)) {
@@ -93,7 +92,7 @@ const PersonList = ({ setMessage, persons, setPersons }) => {
         .getAll()
         .then(response => {
           console.log(response.data)
-          setPersons(response.data)
+          refreshList()
           setMessage(
             'Person deleted from phonebook'
           )
@@ -102,6 +101,15 @@ const PersonList = ({ setMessage, persons, setPersons }) => {
           }, 3000)
         })
     }
+  }
+  
+  const refreshList = () => {
+    noteService
+    .getAll()
+    .then(response => {
+      setPersons(response.data)
+      console.log("list refreshed")
+    })
   }
 
   useEffect(() => {
@@ -146,7 +154,7 @@ const App = () => {
         setMessage={setMessage} />
       <h2>Numbers</h2>
       <PersonList persons={persons} setPersons={setPersons}
-      setMessage={setMessage} />
+        setMessage={setMessage} />
     </div>
   )
 

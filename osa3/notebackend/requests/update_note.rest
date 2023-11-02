@@ -1,0 +1,7 @@
+PUT http://localhost:3001/api/notes/6543795a7a37cb805d0097c2
+Content-Type: application/json
+
+{
+    "content": "Update seems to be workink",
+    "important": true
+}

@@ -1,7 +1,7 @@
-PUT http://localhost:3001/api/notes/6543795a7a37cb805d0097c2
+PUT http://localhost:3001/api/notes/655603819aa28e393446c2ad
 Content-Type: application/json
 
 {
-    "content": "Update seems to be workink",
+    "content": "Oho, muokkasin väärää notea",
     "important": true
 }

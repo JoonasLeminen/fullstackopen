@@ -75,3 +75,24 @@ describe('total likes', () => {
     expect(result).toBe(36)
   })
 })
+
+describe('most likes', () => {
+
+  test('of a bigger list is calculated right', () => {
+    const result = listHelper.mostLikes(blogs)
+    expect(result).toBe(12)
+  })
+})
+
+describe('favorite blog', () => {
+
+  test('of an empty list is calculated right', () => {
+    const result = listHelper.favoriteBlog([])
+    expect(result).toEqual()
+  })
+
+  test('of a bigger list is calculated right', () => {
+    const result = listHelper.favoriteBlog(blogs)
+    expect(result).toEqual(blogs[2])
+  })
+})

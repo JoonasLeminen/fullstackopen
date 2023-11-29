@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const helper = require('./test_helper')
 const app = require('../app')
+
 const api = supertest(app)
 
 const Note = require('../models/note')
+const helper = require('./test_helper')
 
 beforeEach(async () => {
   await Note.deleteMany({})
@@ -75,9 +76,10 @@ test('note without content is not added', async () => {
   expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
 })
 
-test.only('a specific note can be viewed', async () => {
-  const notesAtStart = await helper.notesInDb()
 
+test('a specific note can be viewed', async () => {
+  const notesAtStart = await helper.notesInDb()
+  
   const noteToView = notesAtStart[0]
 
   const resultNote = await api
@@ -88,8 +90,9 @@ test.only('a specific note can be viewed', async () => {
   expect(resultNote.body).toEqual(noteToView)
 })
 
-test.only('a note can be deleted', async () => {
+test('a note can be deleted', async () => {
   const notesAtStart = await helper.notesInDb()
+
   const noteToDelete = notesAtStart[0]
 
   await api

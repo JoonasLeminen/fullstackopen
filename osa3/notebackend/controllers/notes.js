@@ -19,7 +19,7 @@ notesRouter.get('/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-notesRouter.post('/', (request, response, next) => {
+notesRouter.post('/', async (request, response, next) => {
   const body = request.body
 
   const note = new Note({
@@ -27,11 +27,18 @@ notesRouter.post('/', (request, response, next) => {
     important: body.important || false
   })
 
-  note.save()
+  //ilman async
+  /*note.save()
     .then(savedNote => {
-      response.json(savedNote)
-    })
-    .catch(error => next(error))
+      response.status(201).json(savedNote)
+    })*/
+
+  try {
+    const savedNote = await note.save()
+    response.status(201).json(savedNote)
+  } catch(expection) {
+    next(expection)
+  }
 })
 
 notesRouter.delete('/:id', (request, response, next) => {

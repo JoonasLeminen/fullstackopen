@@ -8,10 +8,8 @@ const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
 
-const mongoUrl = process.env.MONGODB_URI
+const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl)
-
-const Blog = require('./models/blog')
 
 app.use(cors())
 app.use(express.json())

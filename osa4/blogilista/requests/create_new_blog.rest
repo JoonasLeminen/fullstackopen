@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Kovakoodattu url ei välttämättä aina toimi :--D",
+    "title": "Tämä on tarkoitettu muutettavaksi",
     "author": "JL",
-    "url": "jopas",
+    "url": "hienohomma.jp",
     "likes": 3
 }

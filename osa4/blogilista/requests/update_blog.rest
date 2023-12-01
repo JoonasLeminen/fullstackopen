@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/6569d3c8c99eb881a830510f
+Content-Type: application/json
+
+{
+    "title": "sehän muuttui perjantaiksi",
+    "author": "JL",
+    "url": "hienohomma.jp",
+    "likes": 669
+}

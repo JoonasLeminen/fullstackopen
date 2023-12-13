@@ -9,12 +9,13 @@ const User = require('../models/user')
 const Blog = require('../models/blog')
 const helper = require('./test_helper')
 
-beforeEach(async () => {
-  await Blog.deleteMany({})
-  //console.log('alustetaan tietokanta')
-  await Blog.insertMany(helper.initialBlogs)
-  //console.log(helper.initialBlogs)
-})
+describe('when there is initially some blogs saved', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    //console.log('alustetaan tietokanta')
+    await Blog.insertMany(helper.initialBlogs)
+    //console.log(helper.initialBlogs)
+  })
 
   test('blogs are returnes as json', async () => {
     await api
@@ -93,14 +94,14 @@ beforeEach(async () => {
 
     expect(contents).not.toContain(blogToDelete.title)
   })
-
+})
 
 describe('when there is initially one user at db', () => {
   beforeEach(async () => {
     await User.deleteMany({})
 
     const passwordHash = await bcrypt.hash('sekret', 10)
-    const user = new User({username: 'root', passwordHash})
+    const user = new User({ username: 'root', passwordHash })
 
     await user.save()
   })
@@ -125,6 +126,69 @@ describe('when there is initially one user at db', () => {
 
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
+  })
+
+  test('creation fails with username already taken', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'root',
+      name: 'random',
+      password: 'salaiu'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
+
+  test('creation fails with too short username', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'a',
+      name: 'Matt Meikäläinen',
+      password: 'salainen'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+    const usernames = usersAtEnd.map(u => u.username)
+    expect(usernames).not.toContain(newUser.username)
+  })
+
+  test('creationg fails with too short password', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'jlem',
+      name: 'Joonas Leminen',
+      password: 'a'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+    const usernames = usersAtEnd.map(u => u.username)
+    expect(usernames).not.toContain(newUser.username)
   })
 })
 

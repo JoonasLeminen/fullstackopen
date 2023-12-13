@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpsZW0iLCJpZCI6IjY1NzZkMzg4M2MzM2U3NDc4OGRjMTI0YiIsImlhdCI6MTcwMjQ1OTI4MCwiZXhwIjoxNzAyNDYyODgwfQ.r7A01LcAZzXsaKvJRk7fJyDEyuPyhpU3K0nnVUC6TPI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpsZW0iLCJpZCI6IjY1Nzk4ZDhjZDZlYmUzYjg2YzQwNjI4MSIsImlhdCI6MTcwMjQ2NDkyMCwiZXhwIjoxNzAyNDY4NTIwfQ.0F0tO-T8i4fy0usoAmejpU2n-Iv15vjlhmaFekIdSvs
 
 {
-    "title": "Entäs nyt",
-    "author": "Testi",
+    "title": "Tänään on ilon ja onnen päivä",
+    "author": "JLEM",
     "url": "hienohomma.jp",
-    "likes": 3
+    "likes": 8
 }

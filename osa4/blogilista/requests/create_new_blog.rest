@@ -1,6 +1,5 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpsZW0iLCJpZCI6IjY1Nzk4ZDhjZDZlYmUzYjg2YzQwNjI4MSIsImlhdCI6MTcwMjQ2NDkyMCwiZXhwIjoxNzAyNDY4NTIwfQ.0F0tO-T8i4fy0usoAmejpU2n-Iv15vjlhmaFekIdSvs
 
 {
     "title": "Tänään on ilon ja onnen päivä",
